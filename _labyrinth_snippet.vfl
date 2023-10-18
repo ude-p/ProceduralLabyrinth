@@ -1,0 +1,44 @@
+int stack[], visited[];
+int index = 0;
+int init = detail(0, 'init');
+
+append(visited, init);
+push(stack, init);
+
+while(len(stack) > 0 ) 
+{
+    index++;
+    int current = pop(stack);
+    int neighs[] = polyneighbours(0, current);
+    int unvisited[];
+   
+    for(int i = 0; i < len(neighs); i++) 
+    {
+        int neigh = neighs[i];
+        if(find(visited, neigh) < 0) 
+        {
+            append(unvisited, neigh);
+        }
+    }
+
+    if(len(unvisited) > 0) 
+    {
+        push(stack, current);
+        int rand_index = floor(fit01(rand(index + 2023), 0, len(unvisited)));
+        int next = unvisited[rand_index];
+        
+        vector pos1 = prim(0, 'P', current);
+        vector pos2 = prim(0, 'P', next);
+       
+        int pt1 = addpoint(0, pos1);
+        int pt2 = addpoint(0, pos2);
+        
+        int line = addprim(0, 'polyline', pt1, pt2);
+        setprimgroup(0, 'lines', line, 1);
+        
+        append(visited, next);
+        push(stack, next);
+     }
+}
+
+removedetailattrib(0, 'init');
